@@ -4,11 +4,14 @@
   inputs.flake-utils.url = "github:numtide/flake-utils";
 
   outputs = { self, flake-utils, nixpkgs }:
-    flake-utils.lib.eachSystem ["x86_64-linux" "aarch64-darwin" ] (system:
-      { packages =
-        { hello-garnix =
-            let pkgs = nixpkgs.legacyPackages.${system};
-            in pkgs.stdenv.mkDerivation {
+    flake-utils.lib.eachSystem [ "x86_64-linux" "aarch64-darwin" ] (system:
+      {
+        packages =
+          {
+            hello-garnix =
+              let pkgs = nixpkgs.legacyPackages.${system};
+              in
+              pkgs.stdenv.mkDerivation {
                 name = "hello-garnix";
 
                 unpackPhase = ":";
@@ -37,9 +40,8 @@
 
 
                 doCheck = true;
-
               };
-        };
+          };
       }
-  );
+    );
 }
